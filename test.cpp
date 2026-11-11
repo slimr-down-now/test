@@ -1,5 +1,5 @@
 #define SLIMR_TEST_MAIN
-#include "slimr/test.hpp"
+#include "test.hpp"
 #include <fstream>
 
 TEST_SUITE("slimr::testing") {
