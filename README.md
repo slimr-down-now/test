@@ -45,13 +45,31 @@ TEST_CASE("temporary directory guard") {
 | `temp_dir` | `inline std::filesystem::path temp_dir(std::string_view prefix = "slimr_test_")` | Creates and returns a unique temporary directory path. |
 | `TempDirGuard` | `struct TempDirGuard { std::filesystem::path path; explicit TempDirGuard(std::string_view prefix = "slimr_test_"); ~TempDirGuard(); };` | RAII guard that creates a unique temp directory on construction and recursively deletes it on destruction. |
 
-## Build & Test
+## Install
 
-This folder owns its header, `test.cpp`, CMake target/config, manifest, port recipe and licenses. See the [integration guide](../../README.md#integration-vcpkg--cmakeninja).
+Add `bdombro/slimr-test` to `vcpkg-configuration.json`:
 
-```bash
-just test-pkg test  # From the repository root; automatic native deps + ASan/UBSan
-just build         # All optimized Release suites
+```json
+{
+  "kind": "git",
+  "repository": "https://github.com/bdombro/slimr-test",
+  "baseline": "<commit-sha>",
+  "packages": [
+    "slimr-test"
+  ]
+}
 ```
 
-Generated output stays under root `build/deps/` and `build/cmake/{Debug,Release}/`. Consumers link `slimr::test` from `find_package(slimr-test CONFIG REQUIRED)`.
+Declare `slimr-test` in `vcpkg.json` and link `slimr::test` in `CMakeLists.txt`:
+
+```cmake
+find_package(slimr-test CONFIG REQUIRED)
+target_link_libraries(my_target PRIVATE slimr::test)
+```
+
+## Build & Test
+
+```bash
+just test   # Debug build (ASan + UBSan) and run tests
+just build  # Optimized Release build
+```
