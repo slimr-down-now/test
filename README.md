@@ -12,12 +12,12 @@ Borrowed directly from the design of [`@slimr/test`](https://www.npmjs.com/packa
 
 ## Install
 
-Add `bdombro/slimr-test` to `vcpkg-configuration.json`:
+Add `slimr-down-now/test` to `vcpkg-configuration.json`:
 
 ```json
 {
   "kind": "git",
-  "repository": "https://github.com/bdombro/slimr-test",
+  "repository": "https://github.com/slimr-down-now/test",
   "baseline": "<commit-sha>",
   "packages": [
     "slimr-test"
