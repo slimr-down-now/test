@@ -1,4 +1,4 @@
-# slimr::test (`packages/test`)
+# slimr::test
 
 Fast, clean C++26 testing wrapper and test fixture library built on top of [doctest](https://github.com/doctest/doctest), featuring automated temporary directory generation and RAII cleanup guards.
 
@@ -10,7 +10,27 @@ Borrowed directly from the design of [`@slimr/test`](https://www.npmjs.com/packa
 - **RAII Temporary Directories:** `TempDirGuard` automatically creates unique temporary directories for tests and cleans up all files recursively on destruction.
 - **Zero Heavy Dependencies:** Extremely lightweight and fast compiling.
 
----
+## Install
+
+Add `bdombro/slimr-test` to `vcpkg-configuration.json`:
+
+```json
+{
+  "kind": "git",
+  "repository": "https://github.com/bdombro/slimr-test",
+  "baseline": "<commit-sha>",
+  "packages": [
+    "slimr-test"
+  ]
+}
+```
+
+Declare `slimr-test` in `vcpkg.json` and link `slimr::test` in `CMakeLists.txt`:
+
+```cmake
+find_package(slimr-test CONFIG REQUIRED)
+target_link_libraries(my_target PRIVATE slimr::test)
+```
 
 ## Quick Start
 
@@ -45,31 +65,12 @@ TEST_CASE("temporary directory guard") {
 | `temp_dir` | `inline std::filesystem::path temp_dir(std::string_view prefix = "slimr_test_")` | Creates and returns a unique temporary directory path. |
 | `TempDirGuard` | `struct TempDirGuard { std::filesystem::path path; explicit TempDirGuard(std::string_view prefix = "slimr_test_"); ~TempDirGuard(); };` | RAII guard that creates a unique temp directory on construction and recursively deletes it on destruction. |
 
-## Install
+## Environment Variables
 
-Add `bdombro/slimr-test` to `vcpkg-configuration.json`:
+| Name | Required | Purpose |
+| --- | --- | --- |
+| *(none)* | — | — |
 
-```json
-{
-  "kind": "git",
-  "repository": "https://github.com/bdombro/slimr-test",
-  "baseline": "<commit-sha>",
-  "packages": [
-    "slimr-test"
-  ]
-}
-```
+## Development
 
-Declare `slimr-test` in `vcpkg.json` and link `slimr::test` in `CMakeLists.txt`:
-
-```cmake
-find_package(slimr-test CONFIG REQUIRED)
-target_link_libraries(my_target PRIVATE slimr::test)
-```
-
-## Build & Test
-
-```bash
-just test   # Debug build (ASan + UBSan) and run tests
-just build  # Optimized Release build
-```
+See [docs/development.md](docs/development.md) for building, testing, linting, and releasing.
