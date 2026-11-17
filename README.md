@@ -65,6 +65,20 @@ TEST_CASE("temporary directory guard") {
 | `temp_dir` | `inline std::filesystem::path temp_dir(std::string_view prefix = "slimr_test_")` | Creates and returns a unique temporary directory path. |
 | `TempDirGuard` | `struct TempDirGuard { std::filesystem::path path; explicit TempDirGuard(std::string_view prefix = "slimr_test_"); ~TempDirGuard(); };` | RAII guard that creates a unique temp directory on construction and recursively deletes it on destruction. |
 
+## Develop against an unreleased lib
+
+Add `"overlay-ports"` to the consumer's `vcpkg-configuration.json`, then run `just test` or `just build` as usual (add one entry per unreleased lib):
+
+```json
+{
+  "overlay-ports": [
+    "<relative path to ~/dev/slimr/<name>/ports/slimr-<name>>"
+  ]
+}
+```
+
+Remove `"overlay-ports"` and bump the registry baseline once the lib is released. Never commit or release with `overlay-ports` set.
+
 ## Environment Variables
 
 | Name | Required | Purpose |
